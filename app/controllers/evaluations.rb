@@ -7,6 +7,10 @@ Cmue::App.controllers :evaluations do
         session[:current_pair] = next_pair
         @progress = Experiment::get_progress(session) * 100
 
+        # Splat operator. Pass project and commit id as separate arguments
+        @commit1 = CommitManager::get(*next_pair[0])
+        @commit2 = CommitManager::get(*next_pair[1])
+
         render 'evaluations/new'
       else
         render 'evaluations/_finished'
@@ -16,9 +20,6 @@ Cmue::App.controllers :evaluations do
     rescue Experiment::InvalidState
       redirect url(:sessions, :new)
     end
-
-    # @page1 = Net::HTTP.get(URI('https://github.com/saltlab/Pangor/commit/1452e304de38855f2a88270b3cacc7bbcb685a47#files'))
-    # @page2 = Net::HTTP.get(URI('https://github.com/saltlab/Pangor/commit/4a072334f78298812abb7ca1ccdb4285c837f48c#files'))
   end
 
   post :create do

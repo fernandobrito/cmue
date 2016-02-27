@@ -1,10 +1,10 @@
 <div class="row well full-height">
     <div class="col-md-6 full-height">
-        <iframe src="/commits/test.html"></iframe>
+        <iframe src="<%= @commit1 %>"></iframe>
     </div>
 
     <div class="col-md-6 full-height">
-        <iframe src="/commits/test.html"></iframe>
+        <iframe src="<%= @commit2 %>"></iframe>
     </div>
 </div>
 
@@ -34,10 +34,14 @@
 <% content_for :js_code do %>
     <script>
         $(document).ready(function() {
+            $('iframe').on('load', function() {
                 $('iframe').contents().find('.header, .pagehead.repohead, ' +
-                        '.commit.full-commit, .site-footer-container, .file-info, #toc').hide();
+                        '.commit.full-commit, .site-footer-container, .file-info, #toc, #all_commit_comments').hide();
 
                 $('iframe').contents().find('body.split-diff .container').css('padding-left', '0px');
+            });
+
+            $('iframe').trigger('load');
         });
     </script>
 <% end %>
