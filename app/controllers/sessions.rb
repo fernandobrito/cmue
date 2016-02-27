@@ -17,13 +17,15 @@ Cmue::App.controllers :sessions do
   # get '/example' do
   #   'Hello world!'
   # end
-  
+
   get :new do
-    Experiment.start(session)
     render 'sessions/new'
   end
 
   post :create do
+    Experiment.start(session)
+    session[:name] = params[:name]
+
     redirect url(:evaluations, :new)
   end
 

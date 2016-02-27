@@ -2,30 +2,53 @@
     <%= stylesheet_link_tag 'jumbotron-narrow' %>
 <% end %>
 
+<% content_for :js_code do %>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<% end %>
 
 <div class="jumbotron">
     <h1>User Study</h1>
     <p class="lead">This user study has as objective the evaluation of Commit Miner's clustering technique.</p>
     <p class="lead">Users evaluate how similar a pair of bug-repair commits is.</p>
     <p class="lead">By pressing the button below, you agree with the conditions listed on the bottom of this page.</p>
-    <%= link_to 'Start experiment', url_for(:sessions, :create), class: 'btn btn-lg btn-success', method: :post %>
-    </p>
+
+    <%= link_to 'Start experiment', '#', class: 'btn btn-lg btn-success', 'data-toggle': 'modal', 'data-target': '#modal' %>
 </div>
 
 <div class="row marketing">
     <div class="col-lg-6">
-        <h4>Duration</h4>
-        <p>The expected duration of the experiment is <strong>1 hour</strong>. The duration of the experiment is not considered in the results. The user may drop the experiment at any by pressing a button. Partial results are not be considered.</p>
-
         <h4>Methodology</h4>
-        <p>Random pairs of bug repairing commits are shown, both intra and inter-cluster. The user is not aware which category he is evaluating. The user must answer how similar he or she consider the repair action to be.</p>
+        <p>Random pairs of bug repair commits are shown, both intra and inter-cluster. The user is not aware of which category he is evaluating. </p>
+        <p>The user can answer, for each pair, if (1) he thinks they fix the same type of bug, (2) he thinks they fix different types of bug or (3) he is not sure.</p>
     </div>
 
     <div class="col-lg-6">
-        <h4>Anonymity</h4>
-        <p>Results are not tracked to individuals.</p>
-
-        <h4>Subheading</h4>
-        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+        <h4>Duration</h4>
+        <p>The expected duration of the experiment is <strong>1 hour</strong>. The duration of the experiment is not considered in the results. The user may drop the experiment at any by pressing the "End Experiment" button. Partial results are not considered in the research.</p>
     </div>
 </div>
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <% form_tag url_for(:sessions, :create), method: :post do %>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">User details</h4>
+                </div>
+                <div class="modal-body">
+                    <%= label_tag :name %>
+                    <%= text_field_tag :name, class: 'form-control', required: true %>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <%= submit_tag 'Start', class: 'btn btn-lg btn-success' %>
+                </div>
+            <% end %>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

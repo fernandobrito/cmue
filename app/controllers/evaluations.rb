@@ -1,4 +1,8 @@
 Cmue::App.controllers :evaluations do
+  before do
+    @name = session[:name]
+  end
+
   get :new do
     begin
       next_pair = Experiment::select_next_pair(session)
