@@ -1,0 +1,9 @@
+---
+:orm: none
+:test: rspec
+:mock: none
+:script: jquery
+:renderer: erb
+:stylesheet: scss
+:namespace: Cmue
+:migration_format: number

@@ -1,0 +1,31 @@
+<% content_for :css_tags do %>
+    <%= stylesheet_link_tag 'jumbotron-narrow' %>
+<% end %>
+
+
+<div class="jumbotron">
+    <h1>User Study</h1>
+    <p class="lead">This user study has as objective the evaluation of Commit Miner's clustering technique.</p>
+    <p class="lead">Users evaluate how similar a pair of bug-repair commits is.</p>
+    <p class="lead">By pressing the button below, you agree with the conditions listed on the bottom of this page.</p>
+    <%= link_to 'Start experiment', url_for(:sessions, :create), class: 'btn btn-lg btn-success', method: :post %>
+    </p>
+</div>
+
+<div class="row marketing">
+    <div class="col-lg-6">
+        <h4>Duration</h4>
+        <p>The expected duration of the experiment is <strong>1 hour</strong>. The duration of the experiment is not considered in the results. The user may drop the experiment at any by pressing a button. Partial results are not be considered.</p>
+
+        <h4>Methodology</h4>
+        <p>Random pairs of bug repairing commits are shown, both intra and inter-cluster. The user is not aware which category he is evaluating. The user must answer how similar he or she consider the repair action to be.</p>
+    </div>
+
+    <div class="col-lg-6">
+        <h4>Anonymity</h4>
+        <p>Results are not tracked to individuals.</p>
+
+        <h4>Subheading</h4>
+        <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+    </div>
+</div>

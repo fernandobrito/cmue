@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 jumbotron align-center">
+        <h1>The end</h1>
+        <p class="lead">You have finished the experiment.</p>
+        <p class="lead">The researches of this research project appreciate your time and effort.</p>
+        <p class="lead">Please press the button bellow to submit your answers.</p>
+
+        <%= link_to 'End experiment', url_for(:sessions, :destroy), class: 'btn btn-lg btn-warning', method: :delete %>
+    </div>
+</div>
+
+
+<style>
+    .align-center {
+        text-align: center;
+    }
+</style>

@@ -1,0 +1,59 @@
+<div class="row well full-height">
+    <div class="col-md-6 full-height">
+        <iframe src="/commits/test.html"></iframe>
+    </div>
+
+    <div class="col-md-6 full-height">
+        <iframe src="/commits/test.html"></iframe>
+    </div>
+</div>
+
+<div class="row well align-center">
+    <div class="col-sm-2 col-sm-offset-3">
+        <%= link_to content_tag(:i, nil, :class => 'fa fa-thumbs-o-down fa-4x'),
+                    url_for(:evaluations, :create, evaluation: '-1'), :class => 'btn btn-default', method: :post %>
+    </div>
+    <div class="col-sm-2">
+        <%= link_to content_tag(:i, nil, :class => 'fa fa-question-circle fa-4x'),
+                    url(:evaluations, :create, evaluation: '0'), :class => 'btn btn-default', method: :post %>
+    </div>
+    <div class="col-sm-2">
+        <%= link_to content_tag(:i, nil, :class => 'fa fa-thumbs-o-up fa-4x'),
+                    url(:evaluations, :create, evaluation: '1'), :class => 'btn btn-default', method: :post %>
+    </div>
+</div>
+
+<div class="row well align-center">
+    <div class="col-sm-8 col-sm-offset-2">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= @progress %>%;"></div>
+        </div>
+    </div>
+</div>
+
+<% content_for :js_code do %>
+    <script>
+        $(document).ready(function() {
+                $('iframe').contents().find('.header, .pagehead.repohead, ' +
+                        '.commit.full-commit, .site-footer-container, .file-info, #toc').hide();
+
+                $('iframe').contents().find('body.split-diff .container').css('padding-left', '0px');
+        });
+    </script>
+<% end %>
+
+<style>
+    html, body, .container, .full-height {
+        height: 100%;
+    }
+
+    iframe {
+        height: 100%;
+        width: 100%;
+        border: 1px dashed gray;
+    }
+
+    .align-center {
+        text-align: center;
+    }
+</style>
