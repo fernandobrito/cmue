@@ -54,11 +54,44 @@ module Experiment
     # Finish the experiment:
     #  * store ending time
     #  * clear cookies
+    # @return [Hash] results
     def finish(session)
-      endedAt = Time.now.to_s
-      puts session[:startedAt]
+      # Keys that will be filtered from the session into the results
+      keys = [:name, :startedAt]
 
+      results = {}
+
+      # Filter session to results
+      keys.each do |key|
+        results.store(key, session[key])
+      end
+
+      # Add end time
+      results.store(:endedAt, Time.now.to_s)
+
+      # Add pairs
+      results.store(:pairs, convert_pairs(session[:pairs]))
+
+      # Clear session
       session.clear
+
+      return results
+    end
+
+  protected
+    # Convert pairs key from hash to string
+    # When storing on session, "pairs" hash use a 2 dimensional array as key,
+    #  which is not supported in JSON. We join this array with commas
+    # Before: [[A, 1], [B, 2]] => -1
+    # After:  'A, 1, B, 2' => -1
+    def convert_pairs(pairs)
+      output = {}
+
+      pairs.each do |key, value|
+        output.store(key.join(','), value)
+      end
+
+      output
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'json'
+
 Cmue::App.controllers :sessions do
   # get :index, :map => '/foo/bar' do
   #   session[:foo] = 'bar'
@@ -30,7 +32,9 @@ Cmue::App.controllers :sessions do
   end
 
   delete :destroy do
-    render :html, "Session: #{session.inspect}"
+    results = Experiment.finish(session)
+
+    render :html, results.to_json
   end
 
 end
