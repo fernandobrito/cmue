@@ -4,7 +4,7 @@ module CommitManager
   # Class methods
   class << self
 
-    def get(project, commit_id)
+    def get(project, commit_id, cluster)
       path = generate_file_path(project, commit_id)
 
       # If file does not exist, retrieve and store it
