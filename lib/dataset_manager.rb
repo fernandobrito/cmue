@@ -3,7 +3,10 @@ require 'csv'
 module DatasetManager
   INPUT_FOLDER = File.join(File.dirname(__FILE__), '..', 'input')
 
-  NUMBER_OF_COMMITS = 30
+  CONTROL_SEED = 1
+
+  NUMBER_OF_COMMITS_CONTROL = 10
+  NUMBER_OF_COMMITS_RANDOM = 20
   RATIO_INTRA = 0.67
 
   # Class methods
@@ -16,21 +19,34 @@ module DatasetManager
       rows = read_rows
 
       # Shuffle them
-      rows.shuffle!
+      rows.shuffle!(random: Random.new(CONTROL_SEED))
 
       # Create empty pairs array
       pairs = []
 
+      # CONTROL GROUP:
       # Generate intra pairs
-      number_of_intra_cluster = NUMBER_OF_COMMITS * RATIO_INTRA
+      number_of_intra_cluster = NUMBER_OF_COMMITS_CONTROL * RATIO_INTRA
       pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster)
 
       # Generate inter pairs
-      number_of_inter_cluster = NUMBER_OF_COMMITS - number_of_intra_cluster
+      number_of_inter_cluster = NUMBER_OF_COMMITS_CONTROL - number_of_intra_cluster
+      pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster)
+
+      rows.shuffle!
+
+      # RANDOM GROUP:
+      # Generate intra pairs
+      number_of_intra_cluster = NUMBER_OF_COMMITS_RANDOM * RATIO_INTRA
+      pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster)
+
+      # Generate inter pairs
+      number_of_inter_cluster = NUMBER_OF_COMMITS_RANDOM - number_of_intra_cluster
       pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster)
 
       # Return the array
-      pairs.shuffle
+      # pairs.shuffle
+      pairs
     end
 
     protected
@@ -39,10 +55,6 @@ module DatasetManager
     # @return [Array] [[project_name, commit_id, cluster], ... ]
     def read_rows
       rows = []  # start with an empty array
-
-      # File.open(File.join(INPUT_FOLDER, 'real_dataset.csv')).each_line do |line|
-      #   rows.push line
-      # end
 
       CSV.foreach(File.join(INPUT_FOLDER, 'real_dataset.csv'), headers: true) do |row|
         # Regex to extract project name (account/project) and commit ID
