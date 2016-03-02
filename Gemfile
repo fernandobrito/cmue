@@ -20,6 +20,10 @@ gem 'rack-test', :require => 'rack/test', :group => 'test'
 # Padrino Stable Gem
 gem 'padrino', '0.13.1'
 
+gem 'moneta'
+gem 'data_mapper'
+gem 'dm-postgres-adapter'
+
 group 'development' do
   gem 'byebug'
 end

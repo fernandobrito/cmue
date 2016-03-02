@@ -34,6 +34,8 @@ Bundler.require(:default, RACK_ENV)
 #   include Padrino::Helpers::TranslationHelpers
 # end
 
+Padrino::IGNORE_CSRF_SETUP_WARNING = true
+
 ##
 # Add your before (RE)load hooks here
 #

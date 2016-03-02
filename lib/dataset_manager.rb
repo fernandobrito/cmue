@@ -3,7 +3,7 @@ require 'csv'
 module DatasetManager
   INPUT_FOLDER = File.join(File.dirname(__FILE__), '..', 'input')
 
-  NUMBER_OF_COMMITS = 10
+  NUMBER_OF_COMMITS = 30
   RATIO_INTRA = 0.67
 
   # Class methods
@@ -30,7 +30,7 @@ module DatasetManager
       pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster)
 
       # Return the array
-      pairs[0..10].shuffle
+      pairs.shuffle
     end
 
     protected

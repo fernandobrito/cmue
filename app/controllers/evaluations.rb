@@ -1,7 +1,6 @@
 Cmue::App.controllers :evaluations do
   before do
     @name = session[:name]
-    @current_pair = session[:current_pair]
   end
 
   get :new do
@@ -15,6 +14,8 @@ Cmue::App.controllers :evaluations do
         # Splat operator. Pass project and commit id as separate arguments
         @commit1 = CommitManager::get(*next_pair[0])
         @commit2 = CommitManager::get(*next_pair[1])
+
+        @session = session
 
         render 'evaluations/new'
       else

@@ -4,7 +4,7 @@ module Cmue
     register Padrino::Mailer
     register Padrino::Helpers
 
-    enable :sessions
+    # enable :sessions
 
     configure :development do
       before do
