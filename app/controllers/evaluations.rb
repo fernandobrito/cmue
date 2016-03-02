@@ -1,6 +1,7 @@
 Cmue::App.controllers :evaluations do
   before do
     @name = session[:name]
+    @current_pair = session[:current_pair]
   end
 
   get :new do
