@@ -36,6 +36,9 @@ Bundler.require(:default, RACK_ENV)
 
 Padrino::IGNORE_CSRF_SETUP_WARNING = true
 
+require 'dotenv'
+Dotenv.load
+
 ##
 # Add your before (RE)load hooks here
 #

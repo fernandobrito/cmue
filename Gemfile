@@ -23,6 +23,8 @@ gem 'padrino', '0.13.1'
 gem 'moneta'
 gem 'data_mapper'
 gem 'dm-postgres-adapter'
+gem 'mail'
+gem 'dotenv'
 
 group 'development' do
   gem 'byebug'

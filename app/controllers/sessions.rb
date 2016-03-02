@@ -34,6 +34,8 @@ Cmue::App.controllers :sessions do
   delete :destroy do
     results = Experiment.finish(session)
 
+    Mailer::send_results(results[:name], results.to_json)
+
     render :html, results.to_json
   end
 

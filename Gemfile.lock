@@ -61,6 +61,7 @@ GEM
       dm-core (~> 1.2.0)
     do_postgres (0.10.17)
       data_objects (= 0.10.17)
+    dotenv (2.1.0)
     enumerable-lazy (0.0.1)
     erubis (2.7.0)
     fastercsv (1.5.5)
@@ -148,7 +149,9 @@ DEPENDENCIES
   byebug
   data_mapper
   dm-postgres-adapter
+  dotenv
   erubis (~> 2.7.0)
+  mail
   moneta
   padrino (= 0.13.1)
   rack-test
