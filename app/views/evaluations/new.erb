@@ -1,4 +1,4 @@
-<% @header_title = "CommitMiner User Study: #{@name}" %>
+<% @header_title = "Software Defect Similarity Study: #{@name}" %>
 <% @container_class = 'container-fluid' %>
 
 <% content_for :js_code do %>
@@ -39,7 +39,7 @@
         <%= content_tag(:i, nil, :class => 'fa fa-bug fa-3x category', title: 'Root Cause Similarity') %>
 
         <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default unkown" title="I don't know enough to answer this" data-step='4' data-intro="Option: 'I don't know enough to answer this'.">
+            <label class="btn btn-default unkown" title="I don't have enough information" data-step='4' data-intro="Option: 'I don't know have enough information'.">
                 <input type="radio" name="bug-similarity" id="bug-0" autocomplete="off" value="0">
                 <%= content_tag(:i, nil, :class => 'fa fa-question-circle fa-3x') %>
             </label>

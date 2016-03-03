@@ -15,8 +15,8 @@
 
 <div class="jumbotron">
     <h1>User Study</h1>
-    <p class="lead">This user study has as objective the evaluation of developers' perceptions on
-        similarity of defect causes and repair solutions.</p>
+    <p class="lead">The objective of this user study is to evaluate developers' perceptions of defect cause
+        similarity and defect repair similarity in software systems.</p>
     <p class="lead">By pressing the button below, you agree with the conditions listed on the bottom of this page.</p>
 
     <%= link_to 'Start experiment', '#', class: 'btn btn-lg btn-success', 'data-toggle': 'modal', 'data-target': '#modal' %>
@@ -25,10 +25,11 @@
 <div class="row marketing">
     <div class="col-lg-6">
         <h4>Methodology</h4>
-        <p>Pairs of bug repair commits from open source JavaScript projects are shown.</p>
-        <p>For each pair, the user should evaluate 2 dimensions: similarity of defect root cause and similarity of repair solution.</p>
-        <p>For each dimension, there are 5 possible answers: 'very dissimilar', 'somehow dissimilar', 'somehow similar',
-            'very similar' and 'I don’t know enough to answer this'.</p>
+        <p>Pairs of commits from open source JavaScript projects are shown. Both commits repair a defect.</p>
+        <p>For each pair, the user will evaluate two dimensions: the similarity of the defects' root causes and the
+            similarity of the defects' repairs.</p>
+        <p>For each dimension, there are five possible answers: 'very dissimilar', 'somewhat dissimilar', 'somewhat similar',
+            'very similar' and 'I don’t have enough information’.</p>
     </div>
 
     <div class="col-lg-6">
@@ -36,8 +37,9 @@
         <p>The expected duration of the experiment is <strong>1 hour</strong>. The ammount of time taken to finish the experiment is
             not considered in the results.</p>
 
-        <p>The user may drop the experiment at any time by closing the browser.
-            Partial results are not considered in the research.</p>
+        <p>The user may leave the session at any time by closing the browser. The session may be resumed
+            later by navigating back to the project’s home page. Partial results will not
+            be included in the research.</p>
     </div>
 </div>
 
