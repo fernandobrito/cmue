@@ -7,7 +7,7 @@ module DatasetManager
 
   NUMBER_OF_COMMITS_CONTROL = 10
   NUMBER_OF_COMMITS_RANDOM = 20
-  RATIO_INTRA = 0.67
+  RATIO_INTRA = 0.5
 
   # Class methods
   class << self
@@ -18,35 +18,34 @@ module DatasetManager
       # Read rows
       rows = read_rows
 
-      # Shuffle them
-      rows.shuffle!(random: Random.new(CONTROL_SEED))
-
       # Create empty pairs array
       pairs = []
 
       # CONTROL GROUP:
+      # Random for control group
+      random = Random.new(CONTROL_SEED)
+
       # Generate intra pairs
       number_of_intra_cluster = NUMBER_OF_COMMITS_CONTROL * RATIO_INTRA
-      pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster)
+      pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster, random)
 
       # Generate inter pairs
       number_of_inter_cluster = NUMBER_OF_COMMITS_CONTROL - number_of_intra_cluster
-      pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster)
+      pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster, random)
 
-      rows.shuffle!
 
       # RANDOM GROUP:
       # Generate intra pairs
       number_of_intra_cluster = NUMBER_OF_COMMITS_RANDOM * RATIO_INTRA
-      pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster)
+      pairs = pairs | generate_intra_cluster_pairs(rows, number_of_intra_cluster, Random.new())
 
       # Generate inter pairs
       number_of_inter_cluster = NUMBER_OF_COMMITS_RANDOM - number_of_intra_cluster
-      pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster)
+      pairs = pairs | generate_inter_cluster_pairs(rows, number_of_inter_cluster, Random.new())
 
       # Return the array
-      # pairs.shuffle
-      pairs
+      pairs.shuffle
+      # pairs
     end
 
     protected
@@ -70,41 +69,48 @@ module DatasetManager
     end
 
     # Generate intra cluster pairs
-    def generate_intra_cluster_pairs(rows, amount)
+    def generate_intra_cluster_pairs(rows, amount, random)
       # Same cluster
-      generate_generic_pairs(rows, amount) { |c1, c2| c1[2] == c2[2] }
+      generate_generic_pairs(rows, amount, random) { |c1, c2| c1[2] == c2[2] }
     end
 
     # Generate inter cluster pairs
-    def generate_inter_cluster_pairs(rows, amount)
+    def generate_inter_cluster_pairs(rows, amount, random)
       # Different cluster
-      generate_generic_pairs(rows, amount) { |c1, c2| c1[2] != c2[2] }
+      generate_generic_pairs(rows, amount, random) { |c1, c2| c1[2] != c2[2] }
     end
 
     # Generate pairs according to criteria passed on block
-    def generate_generic_pairs(rows, amount, &block)
+    def generate_generic_pairs(rows, amount, random,  &block)
       # Output array
       pairs = []
 
       # While we are not there
       while (pairs.size < amount)
+        # Initialize variable
+        found = false
+
+        # Shuffle array
+        rows.shuffle!(random: random)
+
         # Get the first commit
-        commit = rows.pop
+        commitA = rows.first
 
-        # Look for another commit with same cluster number
-        same_cluster_commits = rows.select{ |c| block.call(c, commit) }
+        # Look for another commit matching condition
+        rows[1..-1].each do |commitB|
+            if block.call(commitA, commitB)
 
-        # If there are candidates, pick the first one
-        if (same_cluster_commits.size > 0)
-          other_commit = same_cluster_commits.first
-          rows.delete(other_commit)
+              # To make sure [A, B] and [B, A] are added, we sort
+              pairs << [commitA, commitB].sort
+              pairs.uniq!
 
-          pairs << [commit, other_commit]
-
-          # Otherwise, ignore this commit and try again
-        else
-          next
+              found = true
+              break
+            end
         end
+
+        # Stop infinite loops
+        break unless found
       end
 
       pairs
