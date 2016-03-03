@@ -7,6 +7,12 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <% end %>
 
+<% if session[:name] %>
+    <div class="alert alert-warning" role="alert">There is already an experiment session started
+        by <strong><%= session[:name] %></strong>. <%= link_to 'Click here to resume it', url(:evaluations, :new) %>.
+    Starting a new experiment will destroy the current session.</div>
+<% end %>
+
 <div class="jumbotron">
     <h1>User Study</h1>
     <p class="lead">This user study has as objective the evaluation of Commit Miner's clustering technique.</p>
