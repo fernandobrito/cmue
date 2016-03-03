@@ -45,17 +45,17 @@
             </label>
         </div>
 
-        <div class="btn-group" data-toggle="buttons" data-step="5" data-intro="Options (from left to right): 'very dissimilar', 'somehow dissimilar', 'somehow similar', 'very similar'. Values are also shown as a tooltip in each button.">
+        <div class="btn-group" data-toggle="buttons" data-step="5" data-intro="Options (from left to right): 'very dissimilar', 'somewhat dissimilar', 'somewhat similar', 'very similar'. Values are also shown as a tooltip in each button.">
             <label class="btn btn-default" title="Very dissimilar">
                 <input type="radio" name="bug-similarity" id="bug-m2" autocomplete="off" value="-2">
                 <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
                 <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
             </label>
-            <label class="btn btn-default" title="Somehow dissimilar">
+            <label class="btn btn-default" title="Somewhat dissimilar">
                 <input type="radio" name="bug-similarity" id="bug-m1" autocomplete="off" value="-1">
                 <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
             </label>
-            <label class="btn btn-default" title="Somehow similar">
+            <label class="btn btn-default" title="Somewhat similar">
                 <input type="radio" name="bug-similarity" id="bug+p1" autocomplete="off" value="1">
                 <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
             </label>
