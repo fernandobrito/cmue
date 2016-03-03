@@ -36,7 +36,8 @@ Cmue::App.controllers :sessions do
 
     Mailer::send_results(results[:name], results.to_json)
 
-    render :html, results.to_json
+    # render :html, results.to_json
+    redirect url(:sessions, :new)
   end
 
 end
