@@ -1,5 +1,10 @@
 <% @header_title = "CommitMiner User Study: #{@name}" %>
 
+<% content_for :js_code do %>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<% end %>
+
 <!--
 <%= session.inspect.html_safe %>
 -->
@@ -14,20 +19,67 @@
     </div>
 </div>
 
-<div class="row well align-center">
-    <div class="col-sm-2 col-sm-offset-3">
-        <%= link_to content_tag(:i, nil, :class => 'fa fa-thumbs-o-down fa-4x'),
-                    url_for(:evaluations, :create, evaluation: '-1'), :class => 'btn btn-default', method: :post %>
+<% form_tag url_for(:evaluations, :create), method: :post, id: 'evaluation-form' do %>
+
+    <div class="row well align-center">
+        <%= content_tag(:i, nil, :class => 'fa fa-bug fa-3x category', title: 'Root Cause Similarity') %>
+
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default unkown" title="I don't know enough to answer this">
+                <input type="radio" name="bug-similarity" id="bug-0" autocomplete="off" value="0">
+                <%= content_tag(:i, nil, :class => 'fa fa-question-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Very dissimilar">
+                <input type="radio" name="bug-similarity" id="bug-m2" autocomplete="off" value="-2">
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Somehow dissimilar">
+                <input type="radio" name="bug-similarity" id="bug-m1" autocomplete="off" value="-1">
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Somehow similar">
+                <input type="radio" name="bug-similarity" id="bug+p1" autocomplete="off" value="1">
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Very similar">
+                <input type="radio" name="bug-similarity" id="bug+p2" autocomplete="off" value="2">
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+            </label>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <%= link_to content_tag(:i, nil, :class => 'fa fa-question-circle fa-4x'),
-                    url(:evaluations, :create, evaluation: '0'), :class => 'btn btn-default', method: :post %>
+
+    <div class="row well align-center">
+        <%= content_tag(:i, nil, :class => 'fa fa-wrench fa-3x category', title: 'Repair Similarity') %>
+
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default unkown"  title="I don’t know enough to answer this">
+                <input type="radio" name="repair-similarity" id="repair-0" autocomplete="off" value="0">
+                <%= content_tag(:i, nil, :class => 'fa fa-question-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Very dissimilar">
+                <input type="radio" name="repair-similarity" id="repair-m2" autocomplete="off" value="-2">
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Somehow dissimilar">
+                <input type="radio" name="repair-similarity" id="repair-m1" autocomplete="off" value="-1">
+                <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Somehow similar">
+                <input type="radio" name="repair-similarity" id="repair-p1" autocomplete="off" value="1">
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+            </label>
+            <label class="btn btn-default" title="Very similar">
+                <input type="radio" name="repair-similarity" id="repair-p2" autocomplete="off" value="2">
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+                <%= content_tag(:i, nil, :class => 'fa fa-plus-circle fa-3x') %>
+            </label>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <%= link_to content_tag(:i, nil, :class => 'fa fa-thumbs-o-up fa-4x'),
-                    url(:evaluations, :create, evaluation: '1'), :class => 'btn btn-default', method: :post %>
-    </div>
-</div>
+<% end %>
+
 
 <div class="row well align-center">
     <div class="col-sm-8 col-sm-offset-2">
@@ -48,6 +100,18 @@
             });
 
             $('iframe').trigger('load');
+
+            // When buttons are clicked
+            $('#evaluation-form').on('change', function() {
+               // Check if both groups are filled
+                var group1 = $('input[name=bug-similarity]:checked', '#evaluation-form').val();
+                var group2 = $('input[name=repair-similarity]:checked', '#evaluation-form').val();
+
+                // Submit form
+                if (group1 && group2) {
+                    $('#evaluation-form').submit();
+                }
+            });
         });
     </script>
 <% end %>
@@ -65,5 +129,17 @@
 
     .align-center {
         text-align: center;
+    }
+
+    .unkown { margin-right: 50px; }
+    .btn { width: 100px; }
+
+    .fa.category {
+        vertical-align: middle;
+        margin-right: 50px;
+    }
+
+    .btn.active {
+        border: 2px dashed gray;
     }
 </style>

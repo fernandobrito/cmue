@@ -30,7 +30,7 @@ Cmue::App.controllers :evaluations do
 
   post :create do
     pair = session[:current_pair]
-    evaluation = params[:evaluation]
+    evaluation = [params['bug-similarity'], params['repair-similarity']]
 
     Experiment::save_evaluation(session, pair, evaluation)
 
