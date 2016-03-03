@@ -4,25 +4,38 @@
 <% content_for :js_code do %>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <%= javascript_include_tag 'split-pane' %>
+<% end %>
+
+<% content_for :css_tags do %>
+    <%= stylesheet_link_tag 'introjs.min', 'split-pane' %>
 <% end %>
 
 <!--
 <%= session.inspect.html_safe %>
 -->
 
-<div class="row well full-height" data-step="1" data-intro="Pair of commits to be evaluated." data-position='bottom-middle-aligned'>
-    <div class="col-md-6 full-height">
+<div class="well align-center" data-step="2" data-position='bottom-middle-aligned' data-intro="The pair of commits component can be manually resized or controlled with those buttons.">
+    <%= link_to 'Expand left', '#', class: 'btn btn-default', id: 'expand-left' %>
+    <%= link_to 'Split', '#', class: 'btn btn-default', id: 'expand-split'  %>
+    <%= link_to 'Expand right', '#', class: 'btn btn-default', id: 'expand-right'  %>
+</div>
+
+<div class="well full-height split-pane vertical-percent" data-step="1" data-intro="Pair of commits to be evaluated." data-position='bottom-middle-aligned'>
+    <div class="full-height split-pane-component" id="left-component">
         <iframe src="<%= @commit1 %>"></iframe>
     </div>
 
-    <div class="col-md-6 full-height">
+    <div class="split-pane-divider" id="my-divider"></div>
+
+    <div class="full-height split-pane-component" id="right-component">
         <iframe src="<%= @commit2 %>"></iframe>
     </div>
 </div>
 
 <% form_tag url_for(:evaluations, :create), method: :post, id: 'evaluation-form', 'data-step': 6, 'data-position': 'bottom-middle-aligned', 'data-intro': 'The evaluation is automatically submitted once you select an answer from each dimension.' do %>
 
-    <div class="row well align-center" data-step='2' data-intro="Root cause similarity.">
+    <div class="row well align-center" data-step='3' data-intro="Root cause similarity.">
         <%= content_tag(:i, nil, :class => 'fa fa-bug fa-3x category', title: 'Root Cause Similarity') %>
 
         <div class="btn-group" data-toggle="buttons">
@@ -54,7 +67,7 @@
         </div>
     </div>
 
-    <div class="row well align-center" data-step='3' data-intro="Repair solution similarity." data-position="top">
+    <div class="row well align-center" data-step='4' data-intro="Repair solution similarity." data-position="top">
         <%= content_tag(:i, nil, :class => 'fa fa-wrench fa-3x category', title: 'Repair Similarity') %>
 
         <div class="btn-group" data-toggle="buttons">
@@ -85,7 +98,7 @@
 <% end %>
 
 
-<div class="row well align-center" data-step="7" data-intro="Progress bar." data-position="top">
+<div class="row well align-center" data-step="8" data-intro="Progress bar." data-position="top">
     <div class="col-sm-8 col-sm-offset-2">
         <div class="progress">
             <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= @progress %>%;"></div>
@@ -100,7 +113,7 @@
 
             $('iframe').on('load', function() {
                 $('iframe').contents().find('.header, .pagehead.repohead, ' +
-                        '.commit.full-commit, .site-footer-container, .file-info, #toc, #all_commit_comments').hide();
+                        '.site-footer-container, .file-info, #toc, #all_commit_comments').hide();
 
                 $('iframe').contents().find('body.split-diff .container').css('padding-left', '0px');
 
@@ -122,7 +135,20 @@
 
             $('iframe').trigger('load');
 
-            // When buttons are clicked
+            // Split panes
+            $('div.split-pane').splitPane();
+            $('#expand-left').on('click', function() {
+                $('div.split-pane').splitPane('lastComponentSize', 0);
+            });
+            $('#expand-split').on('click', function() {
+                $('div.split-pane').splitPane('firstComponentSize', $(window).width() / 2);
+            });
+            $('#expand-right').on('click', function() {
+                $('div.split-pane').splitPane('firstComponentSize', 0);
+            });
+
+            // Automatically submit form
+            // when buttons are clicked
             $('#evaluation-form').on('change', function() {
                // Check if both groups are filled
                 var group1 = $('input[name=bug-similarity]:checked', '#evaluation-form').val();
@@ -141,6 +167,8 @@
     html, body, .container-fluid, .full-height {
         height: 100%;
     }
+
+    .split-pane-component { overflow: hidden !important; }
 
     iframe {
         height: 100%;
@@ -162,5 +190,20 @@
 
     .btn.active {
         border: 2px dashed gray;
+    }
+
+    .split-pane-divider {
+        background: #aaa;
+        right: 50%;
+        width: 5px;
+    }
+
+    #left-component {
+        right: 50%;
+        margin-right: 5px;
+    }
+
+    #right-component {
+        width: 50%;
     }
 </style>
