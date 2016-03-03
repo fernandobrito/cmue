@@ -9,7 +9,7 @@
 <%= session.inspect.html_safe %>
 -->
 
-<div class="row well full-height">
+<div class="row well full-height" data-step="1" data-intro="Pair of commits to be evaluated." data-position='bottom-middle-aligned'>
     <div class="col-md-6 full-height">
         <iframe src="<%= @commit1 %>"></iframe>
     </div>
@@ -19,16 +19,19 @@
     </div>
 </div>
 
-<% form_tag url_for(:evaluations, :create), method: :post, id: 'evaluation-form' do %>
+<% form_tag url_for(:evaluations, :create), method: :post, id: 'evaluation-form', 'data-step': 6, 'data-position': 'bottom-middle-aligned', 'data-intro': 'The evaluation is automatically submitted once you select an answer from each dimension.' do %>
 
-    <div class="row well align-center">
+    <div class="row well align-center" data-step='2' data-intro="Root cause similarity.">
         <%= content_tag(:i, nil, :class => 'fa fa-bug fa-3x category', title: 'Root Cause Similarity') %>
 
         <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default unkown" title="I don't know enough to answer this">
+            <label class="btn btn-default unkown" title="I don't know enough to answer this" data-step='4' data-intro="Option: 'I don't know enough to answer this'.">
                 <input type="radio" name="bug-similarity" id="bug-0" autocomplete="off" value="0">
                 <%= content_tag(:i, nil, :class => 'fa fa-question-circle fa-3x') %>
             </label>
+        </div>
+
+        <div class="btn-group" data-toggle="buttons" data-step="5" data-intro="Options (from left to right): 'very dissimilar', 'somehow dissimilar', 'somehow similar', 'very similar'. Values are also shown as a tooltip in each button.">
             <label class="btn btn-default" title="Very dissimilar">
                 <input type="radio" name="bug-similarity" id="bug-m2" autocomplete="off" value="-2">
                 <%= content_tag(:i, nil, :class => 'fa fa-minus-circle fa-3x') %>
@@ -50,7 +53,7 @@
         </div>
     </div>
 
-    <div class="row well align-center">
+    <div class="row well align-center" data-step='3' data-intro="Repair solution similarity." data-position="top">
         <%= content_tag(:i, nil, :class => 'fa fa-wrench fa-3x category', title: 'Repair Similarity') %>
 
         <div class="btn-group" data-toggle="buttons">
@@ -81,7 +84,7 @@
 <% end %>
 
 
-<div class="row well align-center">
+<div class="row well align-center" data-step="7" data-intro="Progress bar." data-position="top">
     <div class="col-sm-8 col-sm-offset-2">
         <div class="progress">
             <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= @progress %>%;"></div>
@@ -92,11 +95,28 @@
 <% content_for :js_code do %>
     <script>
         $(document).ready(function() {
+            var shownIntro = 0;
+
             $('iframe').on('load', function() {
                 $('iframe').contents().find('.header, .pagehead.repohead, ' +
                         '.commit.full-commit, .site-footer-container, .file-info, #toc, #all_commit_comments').hide();
 
                 $('iframe').contents().find('body.split-diff .container').css('padding-left', '0px');
+
+                // introJS has to be initialized after iframes has loaded, but just once
+                if ($.urlParam('intro') === '1' && shownIntro == 0) {
+                    introJs().oncomplete(function() {
+                        $('html, body').animate({
+                            scrollTop: 0
+                        }, 1000);
+                    }).setOption('showProgress', true).setOption('showStepNumbers', false).start();
+
+                    $('html, body').animate({
+                        scrollTop: $(".introjs-tooltip").offset().top - 400
+                    }, 1000);
+
+                    shownIntro = 1;
+                }
             });
 
             $('iframe').trigger('load');

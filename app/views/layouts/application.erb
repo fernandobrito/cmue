@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <%= yield_content :css_tags %>
 
+    <%= stylesheet_link_tag 'introjs.min' %>
+
     <%= csrf_meta_tags %>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -41,7 +43,7 @@
     </footer>
 </div> <!-- /container -->
 
-<%= javascript_include_tag 'jquery', 'jquery-ujs' %>
+<%= javascript_include_tag 'jquery', 'jquery-ujs', 'intro.min', 'application' %>
 <%= yield_content :js_code %>
 
 </body>

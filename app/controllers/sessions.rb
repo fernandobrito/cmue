@@ -28,7 +28,7 @@ Cmue::App.controllers :sessions do
     Experiment.start(session)
     session[:name] = params[:name]
 
-    redirect url(:evaluations, :new)
+    redirect url(:evaluations, :new, intro: 1)
   end
 
   delete :destroy do

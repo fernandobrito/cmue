@@ -15,8 +15,8 @@
 
 <div class="jumbotron">
     <h1>User Study</h1>
-    <p class="lead">This user study has as objective the evaluation of Commit Miner's clustering technique.</p>
-    <p class="lead">Users evaluate how similar a pair of bug-repair commits is.</p>
+    <p class="lead">This user study has as objective the evaluation of developers' perceptions on
+        similarity of defect causes and repair solutions.</p>
     <p class="lead">By pressing the button below, you agree with the conditions listed on the bottom of this page.</p>
 
     <%= link_to 'Start experiment', '#', class: 'btn btn-lg btn-success', 'data-toggle': 'modal', 'data-target': '#modal' %>
@@ -25,13 +25,19 @@
 <div class="row marketing">
     <div class="col-lg-6">
         <h4>Methodology</h4>
-        <p>Random pairs of bug repair commits are shown, both intra and inter-cluster. The user is not aware of which category he is evaluating. </p>
-        <p>The user can answer, for each pair, if (1) he thinks they fix the same type of bug, (2) he thinks they fix different types of bug or (3) he is not sure.</p>
+        <p>Pairs of bug repair commits from open source JavaScript projects are shown.</p>
+        <p>For each pair, the user should evaluate 2 dimensions: similarity of defect root cause and similarity of repair solution.</p>
+        <p>For each dimension, there are 5 possible answers: 'very dissimilar', 'somewhat dissimilar', 'somewhat similar',
+            'very similar' and 'I don’t know enough to answer this'.</p>
     </div>
 
     <div class="col-lg-6">
         <h4>Duration</h4>
-        <p>The expected duration of the experiment is <strong>1 hour</strong>. The duration of the experiment is not considered in the results. The user may drop the experiment at any by pressing the "End Experiment" button. Partial results are not considered in the research.</p>
+        <p>The expected duration of the experiment is <strong>1 hour</strong>. The ammount of time taken to finish the experiment is
+            not considered in the results.</p>
+
+        <p>The user may drop the experiment at any time by pressing the "End Experiment" button.
+            Partial results are not considered in the research.</p>
     </div>
 </div>
 
